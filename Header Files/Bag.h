@@ -1,16 +1,22 @@
 #pragma once
 //DO NOT INCLUDE BAGITERATOR
+typedef int TKey;
 
+class Node{
+    public:
+        TKey key;
+        Node* next;
+};
 
 //DO NOT CHANGE THIS PART
 #define NULL_TELEM -111111;
 typedef int TElem;
 class BagIterator; 
 class Bag {
-
 private:
 	//TODO - Representation
-
+	Node** hash_table = new Node*[1];
+	int m;
 
 	//DO NOT CHANGE THIS PART
 	friend class BagIterator;
