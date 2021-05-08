@@ -6,14 +6,30 @@ using namespace std;
 
 
 Bag::Bag() {
-	//TODO - Implementation
+	this->length=0;
+	this->capacity=INITIAL_CAPACITY;
+    this->hash_table = new Node*[INITIAL_CAPACITY];
+	for(int i=0;i<INITIAL_CAPACITY;i++){
+	    this->hash_table[i] = new Node[INITIAL_CAPACITY];
+	}
+    this->divisor = INITIAL_CAPACITY;
 }
 
 
 void Bag::add(TElem elem) {
-	//TODO - Implementation
+	if(this->length==this->capacity-1){
+	    resize();
+	}
+	int i=0;
+	while(i<this->capacity && this->hash_table[elem%this->divisor][i].element!=-1){
+	    i++;
+	}
+	this->length++;
 }
 
+void Bag::resize() {
+    return;
+}
 
 bool Bag::remove(TElem elem) {
 	//TODO - Implementation
@@ -33,15 +49,16 @@ int Bag::nrOccurrences(TElem elem) const {
 
 
 int Bag::size() const {
-	//TODO - Implementation
-	return 0;
+	return this->length;
 }
-
+//Complexity: Theta(1)
 
 bool Bag::isEmpty() const {
-	//TODO - Implementation
-	return 0;
+    if(this->length==0)
+        return true;
+    return false;
 }
+//Complexity: Theta(1)
 
 BagIterator Bag::iterator() const {
 	return BagIterator(*this);
@@ -49,6 +66,10 @@ BagIterator Bag::iterator() const {
 
 
 Bag::~Bag() {
-	//TODO - Implementation
+	for(int i=0;i<this->capacity;i++){
+	    delete[] this->hash_table[i];
+	}
+	delete[] this->hash_table;
 }
+//Complexity: Theta(n)
 

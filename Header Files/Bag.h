@@ -1,22 +1,25 @@
 #pragma once
 //DO NOT INCLUDE BAGITERATOR
 typedef int TKey;
+typedef int TElem;
 
 class Node{
     public:
         TKey key;
+        TElem element=-1;
         Node* next;
 };
 
 //DO NOT CHANGE THIS PART
-#define NULL_TELEM -111111;
-typedef int TElem;
+#define NULL_TELEM -111111
+#define INITIAL_CAPACITY 11
 class BagIterator; 
 class Bag {
 private:
-	//TODO - Representation
-	Node** hash_table = new Node*[1];
-	int m;
+	Node** hash_table;
+	int divisor;
+	int length;
+	int capacity;
 
 	//DO NOT CHANGE THIS PART
 	friend class BagIterator;
@@ -45,6 +48,9 @@ public:
 
 	//checks if the bag is empty
 	bool isEmpty() const;
+
+	//resizes the dynamically allocated hash table
+	void resize();
 
 	//destructor
 	~Bag();

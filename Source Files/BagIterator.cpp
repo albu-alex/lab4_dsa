@@ -30,5 +30,5 @@ bool BagIterator::valid() const {
 TElem BagIterator::getCurrent() const
 {
 	//TODO - Implementation
-	return NULL_TELEM 
+	return NULL_TELEM;
 }
