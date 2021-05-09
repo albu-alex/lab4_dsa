@@ -7,28 +7,39 @@ using namespace std;
 
 BagIterator::BagIterator(const Bag& c): bag(c)
 {
-	//TODO - Implementation
+	this->current_position=0;
+	while(this->bag.hash_table[this->current_position].head == nullptr) this->current_position++;
+	this->current_node = this->bag.hash_table[this->current_position].head;
 }
 
 void BagIterator::first() {
-	//TODO - Implementation
+    this->current_position=0;
+    while(this->bag.hash_table[this->current_position].head == nullptr) this->current_position++;
+    this->current_node = this->bag.hash_table[this->current_position].head;
 }
 
 
-void BagIterator::next() {
-	//TODO - Implementation
+void BagIterator::next(){
+    if(!valid())
+        throw exception();
+    if(this->current_node != nullptr)
+        this->current_node = this->current_node->next;
+    else{
+        while(this->bag.hash_table[this->current_position].head == nullptr) this->current_position++;
+        this->current_node = bag.hash_table[current_position].head;
+    }
 }
 
 
 bool BagIterator::valid() const {
-	//TODO - Implementation
-	return false;
+	if(this->current_node == nullptr && this->current_position == this->bag.length-1)
+	    return false;
+	return true;
 }
 
 
 
 TElem BagIterator::getCurrent() const
 {
-	//TODO - Implementation
-	return NULL_TELEM;
+    return this->current_node->element;
 }
