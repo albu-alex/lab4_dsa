@@ -8,10 +8,9 @@ using namespace std;
 Bag::Bag() {
 	this->length=0;
 	this->capacity=INITIAL_CAPACITY;
-    this->hash_table = new Node*[INITIAL_CAPACITY];
-	for(int i=0;i<INITIAL_CAPACITY;i++){
-	    this->hash_table[i] = new Node[INITIAL_CAPACITY];
-	}
+    this->hash_table = new SLL[INITIAL_CAPACITY];
+    for(int i=0;i<INITIAL_CAPACITY;i++)
+        this->hash_table[i].head = nullptr;
     this->divisor = INITIAL_CAPACITY;
 }
 
@@ -20,9 +19,27 @@ void Bag::add(TElem elem) {
 	if(this->length==this->capacity-1){
 	    resize();
 	}
-	int i=0;
-	while(i<this->capacity && this->hash_table[elem%this->divisor][i].element!=-1){
-	    i++;
+	int position=abs(elem%this->divisor);
+	Node* new_element = new Node();
+	new_element->frequency = 1;
+	new_element->next = nullptr;
+	new_element->element = elem;
+	if(this->hash_table[position].head == nullptr){
+	    this->hash_table[position].head = new_element;
+	}
+	else{
+	    Node* current_element;
+	    current_element = this->hash_table[position].head;
+	    while(current_element != nullptr && current_element->element != elem)
+            current_element = current_element->next;
+	    if(current_element!= nullptr && current_element->element == elem)
+        {
+	        current_element->frequency++;
+	        this->length++;
+	        return;
+        }
+	    this->hash_table[position].head->next = this->hash_table[position].head;
+	    this->hash_table[position].head = new_element;
 	}
 	this->length++;
 }
@@ -32,19 +49,50 @@ void Bag::resize() {
 }
 
 bool Bag::remove(TElem elem) {
-	//TODO - Implementation
+    int position=abs(elem%this->divisor);
+    Node* current_element;
+    Node* previous_element;
+    current_element = this->hash_table[position].head;
+    while(current_element != nullptr && current_element->element != elem) {
+        previous_element = current_element;
+        current_element = current_element->next;
+    }
+    if(current_element!= nullptr && current_element->element == elem)
+    {
+        if(current_element->frequency > 1) {
+            current_element->frequency--;
+            this->length--;
+        }
+        else{
+            this->length--;
+            previous_element->next = current_element->next;
+        }
+        return true;
+    }
 	return false; 
 }
 
 
 bool Bag::search(TElem elem) const {
-	//TODO - Implementation
-	return false; 
+    int position=abs(elem%this->divisor);
+    Node* current_element;
+    current_element = this->hash_table[position].head;
+    while(current_element != nullptr && current_element->element != elem)
+        current_element = current_element->next;
+    if(current_element!= nullptr && current_element->element == elem)
+	    return true;
+    return false;
 }
 
 int Bag::nrOccurrences(TElem elem) const {
-	//TODO - Implementation
-	return 0; 
+    int position=abs(elem%this->divisor);
+    Node* current_element;
+    current_element = this->hash_table[position].head;
+    while(current_element != nullptr && current_element->element != elem)
+        current_element = current_element->next;
+    if(current_element!= nullptr && current_element->element == elem)
+        return current_element->frequency;
+    return 0;
 }
 
 
@@ -63,13 +111,13 @@ bool Bag::isEmpty() const {
 BagIterator Bag::iterator() const {
 	return BagIterator(*this);
 }
-
+//Complexity: Theta(bagiterator)
 
 Bag::~Bag() {
-	for(int i=0;i<this->capacity;i++){
-	    delete[] this->hash_table[i];
-	}
-	delete[] this->hash_table;
+//	for(int i=0;i<this->capacity;i++){
+//	    delete[] this->hash_table[i];
+//	}
+//	delete[] this->hash_table;
 }
 //Complexity: Theta(n)
 

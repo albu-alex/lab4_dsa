@@ -1,13 +1,17 @@
 #pragma once
 //DO NOT INCLUDE BAGITERATOR
-typedef int TKey;
 typedef int TElem;
 
 class Node{
     public:
-        TKey key;
-        TElem element=-1;
+        TElem element;
+        int frequency=0;
         Node* next;
+};
+
+class SLL{
+    public:
+        Node* head;
 };
 
 //DO NOT CHANGE THIS PART
@@ -16,7 +20,7 @@ class Node{
 class BagIterator; 
 class Bag {
 private:
-	Node** hash_table;
+	SLL* hash_table;
 	int divisor;
 	int length;
 	int capacity;
