@@ -13,6 +13,7 @@ void testIteratorSteps(Bag& bag) {
 	BagIterator bi = bag.iterator();
 	while (bi.valid()) {
 		count++;
+		cout<<count<<endl;
 		bi.next();
 	}
 	assert(count == bag.size());

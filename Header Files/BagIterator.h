@@ -9,6 +9,7 @@ private:
 	const Bag& bag;
 	int current_position;
 	Node* current_node;
+	SLL* hash_table;
 
 	BagIterator(const Bag& c);
 public:
