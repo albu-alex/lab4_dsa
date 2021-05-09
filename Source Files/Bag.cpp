@@ -114,10 +114,10 @@ BagIterator Bag::iterator() const {
 //Complexity: Theta(bagiterator)
 
 Bag::~Bag() {
-//	for(int i=0;i<this->capacity;i++){
-//	    delete[] this->hash_table[i];
-//	}
-//	delete[] this->hash_table;
+	for(int i=0;i<this->capacity;i++){
+	    delete this->hash_table[i].head;
+	}
+	delete[] this->hash_table;
 }
 //Complexity: Theta(n)
 
