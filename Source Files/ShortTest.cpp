@@ -2,7 +2,7 @@
 #include <assert.h>
 #include "Bag.h"
 #include "BagIterator.h"
-
+#include <iostream>
 
 void testAll() { 
 	Bag b;
@@ -28,6 +28,7 @@ void testAll() {
 	it.first();
 	while (it.valid()) {
 		TElem e = it.getCurrent();
+//		std::cout<< e <<std::endl;
 		it.next();
 	}
 }

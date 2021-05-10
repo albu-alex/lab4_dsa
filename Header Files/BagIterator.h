@@ -10,6 +10,7 @@ private:
 	int current_position;
 	Node* current_node;
 	SLL* hash_table;
+	int frequency;
 
 	BagIterator(const Bag& c);
 public:
