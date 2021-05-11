@@ -14,6 +14,7 @@ BagIterator::BagIterator(const Bag& c): bag(c)
 	if(this->current_position == this->bag.capacity) this->current_node = nullptr;
 	else this->current_node = this->bag.hash_table[this->current_position].head;
 }
+//Complexity: O(length_of_hashtable)
 
 void BagIterator::first() {
     this->current_position=0;
@@ -22,6 +23,7 @@ void BagIterator::first() {
     if(this->current_position == this->bag.capacity) this->current_node = nullptr;
     else this->current_node = this->bag.hash_table[this->current_position].head;
 }
+//Complexity: O(length_of_hashtable)
 
 
 void BagIterator::next(){
@@ -42,14 +44,15 @@ void BagIterator::next(){
         this->frequency=1;
     }
 }
+//Complexity: O(length_of_hashtable)
 
 
 bool BagIterator::valid() const {
-	if(this->current_node == nullptr && this->current_position >= this->bag.capacity-1)
+	if(this->current_position > this->bag.length-1 && this->current_position >= this->bag.capacity-1)
 	    return false;
 	return true;
 }
-
+//Theta(1)
 
 
 TElem BagIterator::getCurrent() const
@@ -59,3 +62,4 @@ TElem BagIterator::getCurrent() const
     else
         throw exception();
 }
+//Theta(1)

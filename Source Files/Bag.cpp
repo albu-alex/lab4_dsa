@@ -13,6 +13,7 @@ Bag::Bag() {
         this->hash_table[i].head = nullptr;
     this->divisor = INITIAL_CAPACITY;
 }
+//Complexity: Theta(1)
 
 
 void Bag::add(TElem elem) {
@@ -34,19 +35,22 @@ void Bag::add(TElem elem) {
             current_element = current_element->next;
 	    if(current_element!= nullptr && current_element->element == elem)
         {
+	        //when i add an element the second time, frequency will not be updated
 	        current_element->frequency++;
 	        this->length++;
 	        return;
         }
-	    this->hash_table[position].head->next = this->hash_table[position].head;
+	    new_element->next = this->hash_table[position].head;
 	    this->hash_table[position].head = new_element;
 	}
 	this->length++;
 }
+//Complexity: O(length_of_SLL)
 
 void Bag::resize() {
-    return;
+
 }
+//Complexity: __unused
 
 bool Bag::remove(TElem elem) {
     int position=abs(elem%this->divisor);
@@ -71,6 +75,7 @@ bool Bag::remove(TElem elem) {
     }
 	return false; 
 }
+//Complexity: O(length_of_SLL)
 
 
 bool Bag::search(TElem elem) const {
@@ -83,6 +88,7 @@ bool Bag::search(TElem elem) const {
 	    return true;
     return false;
 }
+//Complexity: O(length_of_SLL)
 
 int Bag::nrOccurrences(TElem elem) const {
     int position=abs(elem%this->divisor);
@@ -94,6 +100,7 @@ int Bag::nrOccurrences(TElem elem) const {
         return current_element->frequency;
     return 0;
 }
+//Complexity: O(length_of_SLL)
 
 
 int Bag::size() const {
@@ -111,7 +118,7 @@ bool Bag::isEmpty() const {
 BagIterator Bag::iterator() const {
 	return BagIterator(*this);
 }
-//Complexity: Theta(bagiterator)
+//Complexity: Theta(1)
 
 Bag::~Bag() {
 	for(int i=0;i<this->capacity;i++){

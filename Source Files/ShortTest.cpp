@@ -7,7 +7,7 @@
 void testAll() { 
 	Bag b;
 	assert(b.isEmpty() == true);
-	assert(b.size() == 0); 
+	assert(b.size() == 0);
 	b.add(5);
 	b.add(1);
 	b.add(10);
@@ -28,7 +28,6 @@ void testAll() {
 	it.first();
 	while (it.valid()) {
 		TElem e = it.getCurrent();
-//		std::cout<< e <<std::endl;
 		it.next();
 	}
 }
