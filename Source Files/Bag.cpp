@@ -55,7 +55,7 @@ void Bag::resize() {
 bool Bag::remove(TElem elem) {
     int position=abs(elem%this->divisor);
     Node* current_element;
-    Node* previous_element;
+    Node* previous_element=nullptr;
     current_element = this->hash_table[position].head;
     while(current_element != nullptr && current_element->element != elem) {
         previous_element = current_element;

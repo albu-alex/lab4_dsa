@@ -10,7 +10,7 @@ BagIterator::BagIterator(const Bag& c): bag(c)
 	this->hash_table = this->bag.hash_table;
     this->current_position=0;
     this->frequency=1;
-	while(this->hash_table[this->current_position].head == nullptr && this->current_position < this->bag.capacity) this->current_position++;
+	while(this->current_position < this->bag.capacity && this->hash_table[this->current_position].head == nullptr) this->current_position++;
 	if(this->current_position == this->bag.capacity) this->current_node = nullptr;
 	else this->current_node = this->bag.hash_table[this->current_position].head;
 }
@@ -19,7 +19,7 @@ BagIterator::BagIterator(const Bag& c): bag(c)
 void BagIterator::first() {
     this->current_position=0;
     this->frequency=1;
-    while(this->hash_table[this->current_position].head == nullptr && this->current_position < this->bag.capacity) this->current_position++;
+    while(this->current_position < this->bag.capacity && this->hash_table[this->current_position].head == nullptr) this->current_position++;
     if(this->current_position == this->bag.capacity) this->current_node = nullptr;
     else this->current_node = this->bag.hash_table[this->current_position].head;
 }
@@ -29,26 +29,24 @@ void BagIterator::first() {
 void BagIterator::next(){
     if(!valid())
         throw exception();
-    if(this->current_node != nullptr)
-        if(this->frequency == this->current_node->frequency){
-            this->current_node = this->current_node->next;
-            if(this->current_node == nullptr && this->current_position < this->bag.capacity-1) this->next();
+    if(this->frequency == this->current_node->frequency){
+        this->current_node = this->current_node->next;
+        if(this->current_node == nullptr && this->current_position < this->bag.capacity-1){
+            this->current_position++;
+            while(this->bag.hash_table[this->current_position].head == nullptr && this->current_position < this->bag.capacity-1) this->current_position++;
+            this->current_node = this->bag.hash_table[current_position].head;
+            this->frequency=1;
         }
-        else{
-            this->frequency++;
-        }
+    }
     else{
-        this->current_position++;
-        while(this->bag.hash_table[this->current_position].head == nullptr) this->current_position++;
-        this->current_node = bag.hash_table[current_position].head;
-        this->frequency=1;
+        this->frequency++;
     }
 }
 //Complexity: O(length_of_hashtable)
 
 
 bool BagIterator::valid() const {
-	if(this->current_position > this->bag.length-1 && this->current_position >= this->bag.capacity-1)
+	if(this->current_node == nullptr)
 	    return false;
 	return true;
 }
