@@ -29,18 +29,18 @@ void BagIterator::first() {
 void BagIterator::next(){
     if(!valid())
         throw exception();
-    if(this->frequency == this->current_node->frequency){
+    if(this->current_node->next != nullptr){
         this->current_node = this->current_node->next;
-        if(this->current_node == nullptr && this->current_position < this->bag.capacity-1){
-            this->current_position++;
-            while(this->bag.hash_table[this->current_position].head == nullptr && this->current_position < this->bag.capacity-1) this->current_position++;
-            this->current_node = this->bag.hash_table[current_position].head;
-            this->frequency=1;
-        }
+        return;
     }
-    else{
-        this->frequency++;
+    this->current_position++;
+    while(this->current_position < this->bag.capacity && this->bag.hash_table[this->current_position].head == nullptr){
+        this->current_position++;
     }
+    if(this->current_position == this->bag.capacity)
+        this->current_node = nullptr;
+    else
+        this->current_node = this->bag.hash_table[this->current_position].head;
 }
 //Complexity: O(length_of_hashtable)
 
