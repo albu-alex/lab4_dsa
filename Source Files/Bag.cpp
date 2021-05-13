@@ -17,7 +17,7 @@ Bag::Bag() {
 
 
 void Bag::add(TElem elem) {
-	if(this->length==this->capacity-1){
+	if(this->length*1.0/this->capacity*1.0>=0.7){
 	    resize();
 	}
 	int position=abs(elem%this->divisor);
@@ -48,19 +48,42 @@ void Bag::add(TElem elem) {
 //Complexity: O(length_of_SLL)
 
 void Bag::resize() {
-
+    this->capacity*=2;
+    this->divisor = this->capacity;
+    Node* current_node;
+    int position;
+    SLL* resized_hash_table = new SLL[this->capacity];
+    for(int i=0;i<this->capacity;i++)
+        resized_hash_table[i].head = nullptr;
+    for(int i=0;i<this->capacity/2;i++) {
+        current_node = this->hash_table[i].head;
+        while(current_node!= nullptr){
+            position = abs(current_node->element%this->divisor);
+            Node* new_element = new Node();
+            new_element->frequency = current_node->frequency;
+            new_element->element = current_node->element;
+            new_element->next = resized_hash_table[position].head;
+            resized_hash_table[position].head = new_element;
+            current_node = current_node->next;
+        }
+    }
+    this->hash_table = resized_hash_table;
 }
-//Complexity: __unused
+//Complexity: O(n*length_of_SLL), where n is former capacity
 
 bool Bag::remove(TElem elem) {
     int position=abs(elem%this->divisor);
     Node* current_element;
     Node* previous_element=nullptr;
+    if(this->hash_table[position].head == nullptr)
+        return false;
     current_element = this->hash_table[position].head;
     while(current_element != nullptr && current_element->element != elem) {
         previous_element = current_element;
         current_element = current_element->next;
     }
+    if(previous_element == nullptr && current_element != this->hash_table[position].head)
+        return false;
     if(current_element!= nullptr && current_element->element == elem)
     {
         if(current_element->frequency > 1) {
@@ -69,7 +92,12 @@ bool Bag::remove(TElem elem) {
         }
         else{
             this->length--;
-            previous_element->next = current_element->next;
+            if(current_element == this->hash_table[position].head){
+                this->hash_table[position].head = this->hash_table[position].head->next;
+            }
+            else {
+                previous_element->next = current_element->next;
+            }
         }
         return true;
     }
@@ -89,6 +117,7 @@ bool Bag::search(TElem elem) const {
     return false;
 }
 //Complexity: O(length_of_SLL)
+
 
 int Bag::nrOccurrences(TElem elem) const {
     int position=abs(elem%this->divisor);

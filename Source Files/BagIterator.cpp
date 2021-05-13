@@ -29,8 +29,13 @@ void BagIterator::first() {
 void BagIterator::next(){
     if(!valid())
         throw exception();
+    if(this->frequency < this->current_node->frequency){
+        this->frequency++;
+        return;
+    }
     if(this->current_node->next != nullptr){
         this->current_node = this->current_node->next;
+        this->frequency=1;
         return;
     }
     this->current_position++;
@@ -39,16 +44,16 @@ void BagIterator::next(){
     }
     if(this->current_position == this->bag.capacity)
         this->current_node = nullptr;
-    else
+    else{
         this->current_node = this->bag.hash_table[this->current_position].head;
+        this->frequency=1;
+    }
 }
 //Complexity: O(length_of_hashtable)
 
 
 bool BagIterator::valid() const {
-	if(this->current_node == nullptr)
-	    return false;
-	return true;
+	return this->current_node != nullptr;
 }
 //Theta(1)
 

@@ -5,7 +5,7 @@ typedef int TElem;
 class Node{
     public:
         TElem element;
-        int frequency=0;
+        int frequency;
         Node* next;
 };
 

@@ -51,6 +51,7 @@ void testAdd() {
 	}
 	assert(b.isEmpty() == false);
 	assert(b.size() == 40);
+    testIteratorSteps(b);
 //	b.add(9);
 	for (int i = -100; i < 100; i++) {
 		b.add(i);
