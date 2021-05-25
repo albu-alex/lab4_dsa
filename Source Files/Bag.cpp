@@ -118,6 +118,25 @@ bool Bag::search(TElem elem) const {
 }
 //Complexity: O(length_of_SLL)
 
+int Bag::elementsWithThisFrequency(int frequency) const {
+    if(frequency <= 0){
+        throw exception();
+    }
+    int number_of_elements = 0;
+    for(int i=0;i<this->capacity;i++){
+        if(this->hash_table[i].head != nullptr){
+            Node* current_element = this->hash_table[i].head;
+            while(current_element != nullptr){
+                if(current_element->frequency == frequency)
+                    number_of_elements++;
+                current_element = current_element->next;
+            }
+        }
+    }
+    return number_of_elements;
+}
+///Complexity: Theta(this->capacity+nr_nodes)
+
 
 int Bag::nrOccurrences(TElem elem) const {
     int position=abs(elem%this->divisor);

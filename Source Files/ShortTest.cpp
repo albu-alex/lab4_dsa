@@ -15,6 +15,8 @@ void testAll() {
 	b.add(1);
 	b.add(11);
 	b.add(-3);
+	assert(b.elementsWithThisFrequency(2) == 1);
+    assert(b.elementsWithThisFrequency(1) == 5);
 	assert(b.size() == 7);
 	assert(b.search(10) == true);
 	assert(b.search(16) == false);

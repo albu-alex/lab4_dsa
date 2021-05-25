@@ -56,6 +56,11 @@ public:
 	//resizes the dynamically allocated hash table
 	void resize();
 
-	//destructor
+    //returns the number of elements that appear frequency times
+    //throws an exception if frequency is negative or zero
+    int elementsWithThisFrequency(int frequency) const;
+
+
+    //destructor
 	~Bag();
 };
